@@ -6,8 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Entities\Link.cs" />
     <Compile Remove="Entities\Pagination.cs" />
     <Compile Remove="Entities\PaginationList.cs" />
+    <Compile Remove="Entities\WordDto.cs" />
     <Compile Remove="Migrations\20200117043854_InitialCreate.cs" />
     <Compile Remove="Migrations\20200117044016_InitialCreate.cs" />
   </ItemGroup>

@@ -39,7 +39,7 @@ namespace AutoDataReader.Repositories
 
         public ICollection<Word> GetAll()
         {
-            var entities = _context.Words.AsNoTracking().ToList();
+            var entities = _context.Words.ToList();
 
             return entities;
         }
