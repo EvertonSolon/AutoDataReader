@@ -2,10 +2,8 @@
 using AutoDataReader.Entities;
 using AutoDataReader.Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace AutoDataReader.Repositories
 {
@@ -41,7 +39,7 @@ namespace AutoDataReader.Repositories
 
         public ICollection<Word> GetAll()
         {
-            var entities = _context.Words.ToList();
+            var entities = _context.Words.AsNoTracking().ToList();
 
             return entities;
         }

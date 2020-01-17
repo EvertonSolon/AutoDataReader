@@ -2,8 +2,6 @@
 using AutoDataReader.Repositories.Contracts;
 using AutoDataReader.Service.Contracts;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AutoDataReader.Service
 {
@@ -24,7 +22,7 @@ namespace AutoDataReader.Service
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            _repository.Delete(id);
         }
 
         public Word Get(int id)
@@ -36,9 +34,12 @@ namespace AutoDataReader.Service
         public PaginationList<Word> GetAll()
         {
             var paginationList = new PaginationList<Word>();
+            var results = _repository.GetAll();
+
+            paginationList.Words.AddRange(results);
             //var entityIqueriable = _context.Words.AsNoTracking().AsQueryable();
 
-            throw new NotImplementedException();
+            return paginationList;
         }
 
         public void Update(Word word)

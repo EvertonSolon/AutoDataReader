@@ -20,7 +20,6 @@ namespace AutoDataReader
                 options.UseSqlite($"Data Source = {dbPathFile}");
             });
 
-            //services.AddSingleton(Configuration);
             services.AddScoped<IWordRepository, WordRepository>();
             services.AddScoped<IWordService, WordService>();
         }
