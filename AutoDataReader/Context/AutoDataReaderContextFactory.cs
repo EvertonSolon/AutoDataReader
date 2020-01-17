@@ -4,6 +4,9 @@ using Microsoft.EntityFrameworkCore.Design;
 
 namespace AutoDataReader.Context
 {
+    /// <summary>
+    /// Source: https://docs.microsoft.com/en-US/ef/core/miscellaneous/cli/dbcontext-creation
+    /// </summary>
     public class AutoDataReaderContextFactory : IDesignTimeDbContextFactory<AutoDataReaderContext>
     {
         public AutoDataReaderContext CreateDbContext(string[] args)

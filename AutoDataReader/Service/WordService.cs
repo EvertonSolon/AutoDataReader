@@ -2,6 +2,7 @@
 using AutoDataReader.Repositories.Contracts;
 using AutoDataReader.Service.Contracts;
 using System;
+using System.Collections.Generic;
 
 namespace AutoDataReader.Service
 {
@@ -31,15 +32,11 @@ namespace AutoDataReader.Service
             return result;
         }
 
-        public PaginationList<Word> GetAll()
+        public ICollection<Word> GetAll()
         {
-            var paginationList = new PaginationList<Word>();
             var results = _repository.GetAll();
 
-            paginationList.Words.AddRange(results);
-            //var entityIqueriable = _context.Words.AsNoTracking().AsQueryable();
-
-            return paginationList;
+            return results;
         }
 
         public void Update(Word word)
