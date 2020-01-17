@@ -53,10 +53,10 @@ namespace AutoDataReader
             //    _service.Delete(item.Id);
             //}
 
-            foreach (var word in wordList)
-            {
-                _service.Create(word);
-            }
+            //foreach (var word in wordList)
+            //{
+            //    _service.Create(word);
+            //}
 
             //DateTime doIt = DateTime.Now.AddSeconds(2);
 
@@ -70,6 +70,13 @@ namespace AutoDataReader
             //    }
             //    Thread.Sleep(2000);
             //}
+
+            var result = _service.GetAll();
+
+            foreach (var item in result)
+            {
+                Console.WriteLine(item.Name);
+            }
         }
     }
 }
