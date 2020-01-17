@@ -7,11 +7,7 @@ namespace AutoDataReader.Helpers
     {
         public static IWordService GetService()
         {
-            var services = new ServiceCollection();
-            var startup = new Startup();
-
-            startup.ConfigureServices(services);
-            var serviceProvider = services.BuildServiceProvider();
+            var serviceProvider = ServiceProviderHelper.GetServiceProvider();
 
             var wordService = serviceProvider.GetService<IWordService>();
             return wordService;

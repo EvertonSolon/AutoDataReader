@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http.Headers;
 using System.Threading;
+using System.Threading.Tasks;
 using AutoDataReader.Entities;
 using AutoDataReader.Helpers;
 using AutoDataReader.Service.Contracts;
@@ -11,17 +13,16 @@ namespace AutoDataReader
     {
         private static IWordService _service;
 
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            DoSomething();
+            _service = WordServiceHelper.GetService();
+            TestSomething();
             Console.WriteLine("Finished!");
             Console.ReadKey();
         }
 
-        static void DoSomething()
+        static void TestSomething()
         {
-            _service = WordServiceHelper.GetService();
-
             var wordList = new List<Word>
             {
                 new Word {Name = "Frog"},
@@ -46,8 +47,6 @@ namespace AutoDataReader
                 new Word {Name = "Bike"},
 
             };
-
-            //var results = _service.GetAll();
 
             //foreach (var item in results.Words)
             //{
