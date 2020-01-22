@@ -26,6 +26,7 @@ namespace AutoDataReader
             services.AddScoped<IWordRepository, WordRepository>();
             services.AddScoped<IWordService, WordService>();
             //services.AddScoped<IConfiguration>();
+            //services.AddScoped<BuilderHelper>();
             //services.AddScoped<HttpClient>();
         }
     }

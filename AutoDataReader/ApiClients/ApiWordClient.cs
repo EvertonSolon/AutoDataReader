@@ -7,32 +7,33 @@ using System.Net.Http.Headers;
 using AutoDataReader.Entities;
 using Newtonsoft.Json;
 using AutoDataReader.Helpers;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace AutoDataReader.ApiClients
 {
     public class ApiWordClient
     {
         private readonly HttpClient _client;
-        private readonly IConfiguration _configuration;
 
-        public ApiWordClient(IConfiguration configuration)
+        public ApiWordClient()
         {
             _client = HttpClientHelper.GetClient();
-
-            _configuration = configuration;
         }
 
-        public HttpResponseMessage Create(Word word)
+        public Word Get(int id)
         {
-            var requestMessage = new HttpRequestMessage(HttpMethod.Post, "word")
-            {
-                Content = new StringContent(
-                JsonConvert.SerializeObject(word),
-                Encoding.UTF8, "application / json")
-            };
+            var requestMessage = new HttpRequestMessage(HttpMethod.Get, "word");
+            var response = _client.SendAsync(requestMessage).Result;
 
-            var result = _client.SendAsync(requestMessage).Result;
-            return result;
+            if (response.IsSuccessStatusCode)
+            {
+                var contentResult = response.Content.ReadAsStringAsync().Result;
+                var content = JsonConvert.DeserializeObject<Word>(contentResult);
+                return content;
+            }
+
+            return null;
         }
         
     }

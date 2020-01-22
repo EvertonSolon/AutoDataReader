@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoDataReader.ApiClients;
 using AutoDataReader.Entities;
 using AutoDataReader.Helpers;
 using AutoDataReader.Service.Contracts;
@@ -16,9 +17,17 @@ namespace AutoDataReader
         public static void Main(string[] args)
         {
             _service = WordServiceHelper.GetService();
-            TestSomething();
+            DoSomething();
+            //TestSomething();
             Console.WriteLine("Finished!");
             Console.ReadKey();
+        }
+
+        private static void DoSomething()
+        {
+            var teste = new ApiWordClient();
+            var result = teste.Get(1);
+
         }
 
         static void TestSomething()
