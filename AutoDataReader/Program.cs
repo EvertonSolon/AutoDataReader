@@ -26,7 +26,8 @@ namespace AutoDataReader
         private static void DoSomething()
         {
             var teste = new ApiWordClient();
-            var result = teste.Get(1);
+            var result0 = teste.Get(3);
+            var result1 = teste.GetAll();
 
         }
 

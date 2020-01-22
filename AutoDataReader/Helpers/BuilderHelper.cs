@@ -12,10 +12,7 @@ namespace AutoDataReader.Helpers
 
         public BuilderHelper()
         {
-
-            //var dbFileLocation = "Context\\DataBase.db";
             var location = AppContext.BaseDirectory.Substring(0, AppContext.BaseDirectory.IndexOf("bin"));
-            //var dbPathFile = Path.Combine(location, dbFileLocation);
 
             var builder = new ConfigurationBuilder()
                             .SetBasePath(location)
