@@ -2,6 +2,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -12,6 +13,7 @@ namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class LoginController : ControllerBase
     {
         private readonly IUserService _service;
@@ -23,6 +25,7 @@ namespace WebApi.Controllers
             _configuration = configuration;
         }
 
+        [Authorize]
         [HttpPost(Name = "Login")]
         public ActionResult Login([FromBody]User user)
         {
@@ -37,13 +40,14 @@ namespace WebApi.Controllers
             if (result == null)
                 return NotFound();//Or StatusCode(404)
 
-            return Ok(BuildToken(user.Email));
+            return Ok(BuildToken(user));
         }
 
-        private object BuildToken(string userEmail)
+        private object BuildToken(User user)
         {
             var claims = new[] {
-                new Claim(JwtRegisteredClaimNames.Email, userEmail)
+                new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString())
             };
 
             var key = _configuration["APIWord_Access:ApiKey"];

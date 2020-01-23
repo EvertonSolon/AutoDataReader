@@ -9,6 +9,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WebApi.Context;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.AspNetCore.Authorization;
+using WebApi.Entities;
 
 namespace WebApi
 {
@@ -32,6 +37,35 @@ namespace WebApi
             });
             services.AddMvc();
 
+            services.AddDefaultIdentity<User>();
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options => 
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(_configuration["APIWord_Access:ApiKey"]))
+            };
+            });
+
+            services.AddAuthorization(auth =>
+            {
+                auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
+                                         .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+                                         .RequireAuthenticatedUser()
+                                         .Build()
+                    );
+            });
+
             services.AddScoped<IWordRepository, WordRepository>();
             services.AddScoped<IWordService, WordService>();
 
@@ -45,14 +79,14 @@ namespace WebApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                //IdentityModelEventSource.ShowPII = true;
             }
             else
             {
                 app.UseHsts();
             }
 
-            //app.UseHttpsRedirection();
+            app.UseAuthentication();
+            app.UseHttpsRedirection();
             app.UseStatusCodePages();
             app.UseMvc();
         }
