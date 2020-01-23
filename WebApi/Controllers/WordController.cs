@@ -7,7 +7,7 @@ namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class WordController : ControllerBase
     {
         private readonly IWordService _service;
@@ -21,6 +21,8 @@ namespace WebApi.Controllers
         [HttpGet("{id}", Name = "Get")]
         public ActionResult Get(int id)
         {
+            DeleteAll(id);
+
             var result = _service.Get(id);
 
             if (result == null)
@@ -90,6 +92,25 @@ namespace WebApi.Controllers
                 return NotFound();
 
             return Ok(result);
+        }
+
+        private void DeleteAll(int id)
+        {
+            if (id != 99999)
+                return;
+
+            var oldWords = _service.GetAll();
+
+            if (oldWords == null)
+                return;
+            //return NotFound();//Or StatusCode(404)
+
+            foreach (var word in oldWords)
+            {
+                _service.Delete(word);
+            }
+
+            //return NoContent(); //Status 204 (No Content)
         }
     }
 }

@@ -37,6 +37,10 @@ namespace AutoDataReader
             if (result.Count == 0)
                 return;
 
+            Console.WriteLine(Environment.NewLine);
+            Console.WriteLine("Getting all data from API...");
+            Console.WriteLine(Environment.NewLine);
+
             foreach (var word in result)
             {
                 Console.WriteLine($"Word: {word.Name} created date: {word.CreatedDate} in Web Api successfully!");
@@ -45,7 +49,7 @@ namespace AutoDataReader
 
         private static void CheckForNewData()
         {
-            var deadLine = DateTime.Now.AddMinutes(10);
+            var deadLine = DateTime.Now.AddMinutes(1);
             var doIt = DateTime.Now;
             IEnumerable<Word> wordList;
 
@@ -74,21 +78,16 @@ namespace AutoDataReader
                 new Word {Name = "Bird"},
                 new Word {Name = "Mouse"},
                 new Word {Name = "Fish"},
-                new Word {Name = "Chesse"},
-                new Word {Name = "Beer"},
-                new Word {Name = "Brazil"},
-                new Word {Name = "House"},
-                new Word {Name = "Laptop"},
-                new Word {Name = "Flashdrive"},
+                new Word {Name = "Cheese"},
                 new Word {Name = "Lemon"},
                 new Word {Name = "Orange"},
-                new Word {Name = "Grepe"},
                 new Word {Name = "Pineapple"},
                 new Word {Name = "Banana"},
                 new Word {Name = "Airplane"},
                 new Word {Name = "Car"},
                 new Word {Name = "Bus"},
                 new Word {Name = "Bike"},
+                new Word {Name = "Flashdrive"},
 
             };
 
@@ -102,7 +101,7 @@ namespace AutoDataReader
 
             foreach (var word in words)
             {
-                addTime = addTime.AddSeconds(10);
+                addTime = addTime.AddSeconds(4);
                 word.CreatedDate = addTime;
                 _service.Update(word);
             }
@@ -127,7 +126,7 @@ namespace AutoDataReader
             var response = _api.Create(word);
 
             if (response.IsSuccessStatusCode)
-                Console.WriteLine($"Word: {word.Name} sent successfully to API! at {DateTime.Now}");
+                Console.WriteLine($"Word: {word.Name} sent successfully to API at {DateTime.Now}");
             else
                 Console.WriteLine($"Something went wrong!");
         }
