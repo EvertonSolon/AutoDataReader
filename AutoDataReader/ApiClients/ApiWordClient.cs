@@ -3,6 +3,7 @@ using System.Net.Http;
 using AutoDataReader.Entities;
 using Newtonsoft.Json;
 using AutoDataReader.Helpers;
+using System.Text;
 
 namespace AutoDataReader.ApiClients
 {
@@ -13,6 +14,24 @@ namespace AutoDataReader.ApiClients
         public ApiWordClient()
         {
             _client = HttpClientHelper.GetClient();
+        }
+
+        public HttpResponseMessage Create(Word word)
+        {
+            var requestMessage = new HttpRequestMessage(HttpMethod.Post, $"word")
+            {
+                Content = new StringContent(JsonConvert.SerializeObject(word), Encoding.UTF8, "application/json")
+            };
+
+            var response = _client.SendAsync(requestMessage).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                var contentResult = response.Content.ReadAsStringAsync().Result;
+                var content = JsonConvert.DeserializeObject<Word>(contentResult);
+            }
+
+            return response;
         }
 
         public Word Get(int id)

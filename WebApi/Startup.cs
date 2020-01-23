@@ -14,13 +14,21 @@ namespace WebApi
 {
     public class Startup
     {
+        private readonly IConfiguration _configuration;
+
+        public Startup(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddDbContext<WebApiContext>(opt =>
             {
-                opt.UseSqlite("Data Source=Context\\WebApiDataBase.db");
+                //opt.UseSqlite("Data Source=Context\\WebApiDataBase.db");
+                opt.UseSqlite($"Data Source={_configuration.GetValue<string>("DbSettings:MySql:DbFileLocation")}");
             });
             services.AddMvc();
 

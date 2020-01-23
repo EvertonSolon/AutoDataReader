@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,25 +15,57 @@ namespace AutoDataReader
     public class Program
     {
         private static IWordService _service;
+        static readonly ApiWordClient _api = new ApiWordClient();
 
         public static void Main(string[] args)
         {
             _service = WordServiceHelper.GetService();
-            DoSomething();
-            //TestSomething();
+            CleanLocalDataBase();
+            PopulateDataBase();
+            CheckForNewData();
+            GetDateFromApi();
+
+
             Console.WriteLine("Finished!");
             Console.ReadKey();
         }
 
-        private static void DoSomething()
+        private static void GetDateFromApi()
         {
-            var teste = new ApiWordClient();
-            var result0 = teste.Get(3);
-            var result1 = teste.GetAll();
+            var result = _api.GetAll();
 
+            if (result.Count == 0)
+                return;
+
+            foreach (var word in result)
+            {
+                Console.WriteLine($"Word: {word.Name} created date: {word.CreatedDate} in Web Api successfully!");
+            }
         }
 
-        static void TestSomething()
+        private static void CheckForNewData()
+        {
+            var deadLine = DateTime.Now.AddMinutes(10);
+            var doIt = DateTime.Now;
+            IEnumerable<Word> wordList;
+
+            do
+            {
+                wordList = _service.GetAll().Where(x => x.CreatedDate <= DateTime.Now);
+
+                if (wordList.Count() == 0)
+                    Thread.Sleep(2000);
+
+                foreach (var word in wordList)
+                {
+                    CreateWordApi(word);
+                    _service.Delete(word);
+                }
+
+            } while (DateTime.Now <= deadLine);
+        }
+
+        private static void PopulateDataBase()
         {
             var wordList = new List<Word>
             {
@@ -57,6 +91,59 @@ namespace AutoDataReader
                 new Word {Name = "Bike"},
 
             };
+
+            foreach (var word in wordList)
+            {
+                _service.Create(word);
+            }
+
+            var words = _service.GetAll();
+            var addTime = DateTime.Now;
+
+            foreach (var word in words)
+            {
+                addTime = addTime.AddSeconds(10);
+                word.CreatedDate = addTime;
+                _service.Update(word);
+            }
+        }
+
+        private static void CleanLocalDataBase()
+        {
+            var oldWords = _service.GetAll();
+
+            if(oldWords != null)
+            {
+                foreach (var word in oldWords)
+                {
+                    _service.Delete(word);
+                }
+            }
+        }
+
+        private static void CreateWordApi(Word word)
+        {
+            //var api = new ApiWordClient();
+            var response = _api.Create(word);
+
+            if (response.IsSuccessStatusCode)
+                Console.WriteLine($"Word: {word.Name} sent successfully to API! at {DateTime.Now}");
+            else
+                Console.WriteLine($"Something went wrong!");
+        }
+
+
+        #region Tests
+        private void DoSomething()
+        {
+            var teste = new ApiWordClient();
+            var result0 = teste.Get(3);
+            var result1 = teste.GetAll();
+
+        }
+
+        static void TestSomething()
+        {
 
             //foreach (var item in results.Words)
             //{
@@ -88,5 +175,6 @@ namespace AutoDataReader
                 Console.WriteLine(item.Name);
             }
         }
+        #endregion
     }
 }

@@ -21,9 +21,9 @@ namespace AutoDataReader.Service
             _repository.Create(word);
         }
 
-        public void Delete(int id)
+        public void Delete(Word word)
         {
-            _repository.Delete(id);
+            _repository.Delete(word);
         }
 
         public Word Get(int id)
@@ -41,7 +41,7 @@ namespace AutoDataReader.Service
 
         public void Update(Word word)
         {
-            throw new NotImplementedException();
+            _repository.Update(word);
         }
     }
 }

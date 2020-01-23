@@ -22,11 +22,11 @@ namespace AutoDataReader.Repositories
             _context.SaveChanges();
         }
 
-        public void Delete(int id)
+        public void Delete(Word word)
         {
-            var entity = Get(id);
+            //var entity = Get(id);
 
-            _context.Remove(entity);
+            _context.Remove(word);
             _context.SaveChanges();
         }
 

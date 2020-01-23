@@ -10,6 +10,7 @@ namespace WebApi.Context
     public class WebApiContext : DbContext
     {
         public DbSet<Word> Words { get; set; }
+        public DbSet<User> Users { get; set; }
 
         public WebApiContext(DbContextOptions<WebApiContext> options) : base(options)
         {

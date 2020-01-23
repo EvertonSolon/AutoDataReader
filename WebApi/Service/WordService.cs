@@ -21,9 +21,9 @@ namespace WebApi.Service
             _repository.Create(word);
         }
 
-        public void Delete(int id)
+        public void Delete(Word word)
         {
-            _repository.Delete(id);
+            _repository.Delete(word);
         }
 
         public Word Get(int id)

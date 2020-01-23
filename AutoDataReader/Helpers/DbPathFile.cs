@@ -16,7 +16,7 @@ namespace AutoDataReader.Helpers
             //}
             #endregion
 
-            var dbFileLocation = "Context\\DataBase.db";
+            var dbFileLocation = new BuilderHelper()._configuration["DbSettings:MySql:DbFileLocation"];
             var location = AppContext.BaseDirectory.Substring(0, AppContext.BaseDirectory.IndexOf("bin"));
             var dbPathFile = Path.Combine(location, dbFileLocation);
 

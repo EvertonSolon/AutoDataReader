@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using WebApi.Entities;
 using WebApi.Service.Contracts;
 
@@ -73,12 +68,12 @@ namespace WebApi.Controllers
         [HttpDelete("{id}", Name = "Delete")]
         public ActionResult Delete(int id)
         {
-            var result = _services.Get(id);
+            var word = _services.Get(id);
 
-            if (result == null)
+            if (word == null)
                 return NotFound();//Or StatusCode(404)
 
-            _services.Delete(id);
+            _services.Delete(word);
 
             return NoContent(); //Status 204 (No Content)
         }

@@ -11,7 +11,7 @@ namespace WebApi.Service.Contracts
 
         void Update(Word word);
 
-        void Delete(int id);
+        void Delete(Word word);
 
         ICollection<Word> GetAll();
     }
