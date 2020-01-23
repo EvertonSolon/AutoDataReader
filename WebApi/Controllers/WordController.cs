@@ -4,22 +4,22 @@ using WebApi.Service.Contracts;
 
 namespace WebApi.Controllers
 {
-    [Route("api/word")]
+    [Route("api/[controller]")]
     [ApiController]
     public class WordController : ControllerBase
     {
-        private readonly IWordService _services;
+        private readonly IWordService _service;
 
         public WordController(IWordService service)
         {
-            _services = service;
+            _service = service;
         }
 
         // GET: api/Word
         [HttpGet("{id}", Name = "Get")]
         public ActionResult Get(int id)
         {
-            var result = _services.Get(id);
+            var result = _service.Get(id);
 
             if (result == null)
                 return NotFound();//Or StatusCode(404)
@@ -37,7 +37,7 @@ namespace WebApi.Controllers
             if (!ModelState.IsValid)
                 return UnprocessableEntity(ModelState);
 
-            _services.Create(word);
+            _service.Create(word);
 
             return Created($"/api/word/{word.Id}", word);
         }
@@ -52,14 +52,14 @@ namespace WebApi.Controllers
             if (!ModelState.IsValid)
                 return UnprocessableEntity(ModelState);
 
-            var result = _services.Get(id);
+            var result = _service.Get(id);
 
             if (result == null)
                 return NotFound();//Or StatusCode(404)
 
             word.Id = id;
 
-            _services.Update(word);
+            _service.Update(word);
 
             return Ok(word);
         }
@@ -68,12 +68,12 @@ namespace WebApi.Controllers
         [HttpDelete("{id}", Name = "Delete")]
         public ActionResult Delete(int id)
         {
-            var word = _services.Get(id);
+            var word = _service.Get(id);
 
             if (word == null)
                 return NotFound();//Or StatusCode(404)
 
-            _services.Delete(word);
+            _service.Delete(word);
 
             return NoContent(); //Status 204 (No Content)
         }
@@ -82,7 +82,7 @@ namespace WebApi.Controllers
         [HttpGet(Name = "GetAll")]
         public ActionResult GetAll()
         {
-            var result = _services.GetAll();
+            var result = _service.GetAll();
 
             if (result.Count == 0)
                 return NotFound();

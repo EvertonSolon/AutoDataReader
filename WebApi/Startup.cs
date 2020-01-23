@@ -34,6 +34,10 @@ namespace WebApi
 
             services.AddScoped<IWordRepository, WordRepository>();
             services.AddScoped<IWordService, WordService>();
+
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserService, UserService>();
+
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -41,6 +45,7 @@ namespace WebApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                //IdentityModelEventSource.ShowPII = true;
             }
             else
             {

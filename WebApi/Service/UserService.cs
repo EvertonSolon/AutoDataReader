@@ -2,25 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebApi.Context;
 using WebApi.Entities;
 using WebApi.Repositories.Contracts;
+using WebApi.Service.Contracts;
 
-namespace WebApi.Repositories
+namespace WebApi.Service
 {
-    public class UserRepository : IUserRepository
+    public class UserService : IUserService
     {
-        private readonly WebApiContext _context;
+        private readonly IUserRepository _repository;
 
-        public UserRepository(WebApiContext context)
+        public UserService(IUserRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         public void Create(User user)
         {
-            _context.Users.Add(user);
-            _context.SaveChanges();
+            user.CreatedDate = DateTime.Now;
+            _repository.Create(user);
         }
 
         public void Delete(User user)
@@ -35,16 +35,15 @@ namespace WebApi.Repositories
 
         public User Get(User user)
         {
-            var result = _context.Users.FirstOrDefault(x => x.Email == user.Email && x.Password == user.Password); //FirstOrDefault(x => x.Email == email && x.Senha == senha);
-
-            return user;
+            var result = _repository.Get(user);
+            return result;
         }
 
         public ICollection<User> GetAll()
         {
-            var entities = _context.Users.ToList();
+            var results = _repository.GetAll();
 
-            return entities;
+            return results;
         }
 
         public void Update(User user)

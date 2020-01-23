@@ -13,7 +13,7 @@ namespace WebApi.Entities
         public string Email { get; set; }
 
         [Required]
-        [EmailAddress]
+        //[EmailAddress]
         public string Password { get; set; }
     }
 }

@@ -1,18 +1,19 @@
 ﻿using WebApi.Entities;
 using System.Collections.Generic;
+using WebApi.Service.Contracts.Base;
 
 namespace WebApi.Service.Contracts
 {
-    public interface IWordService
+    public interface IWordService : ICrudBaseService<Word>
     {
-        Word Get(int id);
+        //Word Get(int id);
 
-        void Create(Word word);
+        //void Create(Word word);
 
-        void Update(Word word);
+        //void Update(Word word);
 
-        void Delete(Word word);
+        //void Delete(Word word);
 
-        ICollection<Word> GetAll();
+        //ICollection<Word> GetAll();
     }
 }

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebApi.Entities;
-using WebApi.Repositories.Contracts.Base;
+using WebApi.Service.Contracts.Base;
 
-namespace WebApi.Repositories.Contracts
+namespace WebApi.Service.Contracts
 {
-    public interface IUserRepository : ICrudBaseRepository<User>
+    public interface IUserService : ICrudBaseService<User>
     {
         User Get(User user);
     }
